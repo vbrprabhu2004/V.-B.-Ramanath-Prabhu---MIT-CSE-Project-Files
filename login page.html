@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .container{
+                display: grid;
+                grid-template-columns:270px;
+                width: 270px;
+                border: 1px solid black;
+            }.heading{
+                margin-left: 98px;
+            }.details{
+                margin-top: 20px;
+                background-color: bisque;
+            }
+            .submit-button{
+                margin-top: 10px;
+                margin-left: 98px;
+            }
+            textarea{
+                margin-left: 80px;
+            }
+            .name-box{
+                width: 190px;
+                margin-left: 60px;
+            }
+            .Js-captcha-value{
+                text-decoration: line-through;
+                font-weight: bold;
+                height: 30px;
+                margin-left: 60px;
+            }
+
+
+
+*{
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+body{
+  font-family: "Roboto",sans-serif;
+  background-color: rgb(245, 245, 245);
+}
+.login-form{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  width: 90%;
+  max-width: 450px;
+  background-color: transparent;
+  padding: 20px 20px;
+  /*box-shadow: 0px 10px 10px rgba(233, 230, 230, 0.3);*/
+  border-radius: 20px;
+  border: 2px solid rgba(257,257,257,.7);
+}
+.form-title{
+  font-family: "Montserrac",sans-serif;
+  text-align: center;
+  font-size: 30px;
+  font-weight: 600;
+  margin: 20px 0px 30px;
+  color: black;
+}
+.form-input{
+  margin: 10px 0px;
+}
+.form-input{
+  display: block;
+  font-size: 15px;
+  color: #111;
+  margin-bottom: 5px;
+}
+input{
+  width: 100%;
+  padding: 10%;
+  border: 1px solid rgb(136, 136, 136);
+  font-size: 15px;
+}
+.captcha{
+  margin: 15px 0px;
+}
+.preview{
+  color: rgb(85, 85, 85);
+  width: 100%;
+  text-align: center;
+  height: 40px;
+  line-height: 40px;
+  letter-spacing: 8px;
+  border: 1px dashed rgb(85, 85, 85);
+  font-family: "monospace";
+}
+.preview span{
+    display: inline-block;
+    user-select: none;
+}
+.captcha-form{
+  display: flex;
+}
+input{
+  width: 100%;
+  padding: 8px;
+  border: 1px solid rgb(85, 85, 85);
+}
+.captcha-refresh{
+  width: 40px;
+  border: none;
+  outline: none;
+  background-color:rgb(85, 85, 85);
+  color: rgb(238, 238, 238);
+  cursor: pointer;
+}
+#login-btn{
+  margin-top: 5px;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  font-size: 15px;
+  text-transform: uppercase;
+  background-color: rgb(76, 129, 255);
+  color: white;
+  cursor: pointer;
+}
+.refresh-img{
+    width: 25px;
+}
+.preview{
+    text-decoration: line-through;
+    font-weight: bold;
+    height: 30px;
+    font-size: 20px;
+    padding-bottom: 15px;
+}
+body{
+  background-image: url(image.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+H1{
+  text-align: center;
+   margin-top: 90px;
+}
+
+  </style>
+</head>
+<body onload="GenerateCaptcha()">
+  <h1>TRIVIA GAMES</h1>
+  <div class="login-form">
+    <div class="form-title">
+      User Login
+    </div>
+    <div class="form-input">
+      <form action="insert.php" method="post" onsubmit="return checkCaptcha()">
+        <label for="username">Name</label>
+        <input type="text" id="name" name="username" required>
+      </div>
+      <div class="captcha">
+        <label for="captcha-input">Enter captcha</label>
+        <div class="preview"></div>
+        <div class="captcha-form">
+          <input type="text" id="captcha-form" placeholder="enter captcha" class="js-captcha">
+          <button onclick="GenerateCaptcha()">
+            <img class="refresh-img" src="refresh.jpg">
+          </button>
+        </div>
+      </div>
+      <p class=".captchacheck"></p> 
+      <div class="form-input">
+        <button type="submit" id="login-btn">Login</button>
+      </div>
+    </form>          
+  </div>
+
+  <script>
+    function GenerateCaptcha(){
+                let alphabets = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz";
+                let first=alphabets[Math.floor(Math.random()*alphabets.length)];
+                let second = Math.floor(Math.random() * 10);
+                let third = Math.floor(Math.random() * 10);
+                let fourth = alphabets[Math.floor(Math.random() * alphabets.length)];
+                let fifth = alphabets[Math.floor(Math.random() * alphabets.length)];
+                let sixth = Math.floor(Math.random() * 10);
+                captcha = first+second+third+fourth+fifth+sixth;
+                    let captchaInnerelement=document.querySelector('.preview');
+                        captchaInnerelement.innerHTML=captcha;
+            }
+
+    function checkCaptcha() {
+      let uservalue = document.querySelector('.js-captcha').value;
+      let generatedValue = document.querySelector('.preview').innerHTML;
+
+      if (generatedValue === uservalue) {
+        // Proceed with form submission if captcha is validated
+        return true;
+      } else if(generatedValue !== uservalue) {
+        alert('Cannot login, incorrect captcha.');
+        GenerateCaptcha();
+        let change = document.querySelector('.js-captcha');
+        change.value = '';
+        return false;
+      }
+    }
+  </script>
+</body>
+</html>
